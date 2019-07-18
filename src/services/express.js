@@ -28,18 +28,22 @@ const startServer = async () => {
   app.use(cookieParser())
   // app.use(authTokens)
 
-  SuperTokens.init(config, mongoose.connection)
-
-  app.post('/refreshtoken', function (req, res) {})
+  app.post('/refreshtoken', function (req, res) { })
 
   server.applyMiddleware({
     app,
     path: '/graphql'
   })
 
-  app.listen({ port: process.env.PORT }, () =>
-    console.log(`Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
-  )
+  console.log(config)
+
+  SuperTokens.init(config, mongoose.connection).then(() => {
+    app.listen({ port: process.env.PORT }, () =>
+      console.log(`Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
+    )
+  }).catch((err) => {
+    console.log(err)
+  })
 }
 
 module.exports = startServer
