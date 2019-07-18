@@ -35,8 +35,7 @@ const startServer = async () => {
     path: '/graphql'
   })
 
-  console.log(config)
-
+  console.log(mongoose.connection)
   SuperTokens.init(config, mongoose.connection).then(() => {
     app.listen({ port: process.env.PORT }, () =>
       console.log(`Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
